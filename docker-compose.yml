@@ -1,0 +1,28 @@
+version: "3"
+services:
+  zeeadatabase:
+    image: mysql:5.7.23
+    ports:
+      - 3306:3306   
+    environment:
+        MYSQL_ROOT_PASSWORD: zeea
+        MYSQL_DATABASE: zeeaInventoryDB
+        MYSQL_USER: shan
+        MYSQL_PASSWORD: shan
+    #volumes:
+     #  - ./loaddb:/docker-entrypoint-initdb.d  
+  zeeaweb:
+        build:
+          context: .
+          dockerfile: dockerfile
+          args:
+            SERVER_IMAGE: payara/server-full
+            ZEEA_DB_SERVERNAME: zeeadatabase
+            ZEEA_DATABASE_NAME: zeeaInventoryDB
+        #volumes:
+       #   - ./war:/opt/payara/deployments
+        depends_on:
+          - zeeadatabase
+        ports:
+          - 8080:8080
+          - 4848:4848
