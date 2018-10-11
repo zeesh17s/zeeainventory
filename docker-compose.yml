@@ -12,15 +12,12 @@ services:
     #volumes:
      #  - ./loaddb:/docker-entrypoint-initdb.d  
   zeeaweb:
-        build:
-          context: .
-          dockerfile: dockerfile
-          args:
-            SERVER_IMAGE: payara/server-full
+        image: webserver
+        environment:
             ZEEA_DB_SERVERNAME: zeeadatabase
             ZEEA_DATABASE_NAME: zeeaInventoryDB
         #volumes:
-       #   - ./war:/opt/payara/deployments
+        # - ./war:/opt/payara/deployments
         depends_on:
           - zeeadatabase
         ports:
