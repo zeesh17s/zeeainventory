@@ -9,8 +9,8 @@ ENV ZEEA_DATABASE_NAME ${ZEEA_DATABASE_NAME}
 RUN wget -O $PAYARA_PATH/glassfish/domains/domain1/lib/mysql-connector-java-8.0.12.jar   http://central.maven.org/maven2/mysql/mysql-connector-java/8.0.12/mysql-connector-java-8.0.12.jar  
 
 # WAR File to deploy
-COPY ./war/inventoryweb-2.0-SNAPSHOT.war $DEPLOY_DIR
-#ADD --chown=payara:payara https://github.com/zeesh17s/zeeainventory/raw/master/inventoryweb-2.0-SNAPSHOT.war $DEPLOY_DIR
+#COPY ./war/inventoryweb-2.0-SNAPSHOT.war $DEPLOY_DIR
+ADD --chown=payara:payara https://github.com/zeesh17s/zeeainventory/raw/master/war/inventoryweb-2.0-SNAPSHOT.war $DEPLOY_DIR
 
 ENTRYPOINT ${PAYARA_PATH}/generate_deploy_commands.sh && \
 echo "create-jdbc-connection-pool --datasourceclassname com.mysql.cj.jdbc.MysqlDataSource --restype javax.sql.ConnectionPoolDataSource --property user=shan:password=shan:DatabaseName=$ZEEA_DATABASE_NAME:ServerName=$ZEEA_DB_SERVERNAME:port=3306:useSSL=false zeeaPoolMySql" > mycommands.asadmin && \
